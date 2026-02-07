@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Baby 💕</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI', sans-serif;
+}
+
+body{
+height:100vh;
+background:linear-gradient(135deg,#ffb6c1,#ffe4e1);
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+color:#ff4d6d;
+}
+
+/* CARD */
+
+.card{
+background:white;
+padding:30px;
+border-radius:25px;
+width:90%;
+max-width:420px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+position:relative;
+z-index:2;
+}
+
+/* TEXT */
+
+h1{
+margin-bottom:15px;
+}
+
+#message{
+margin-top:15px;
+font-size:17px;
+min-height:50px;
+}
+
+/* BUTTONS */
+
+.buttons{
+margin-top:20px;
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+button{
+border:none;
+padding:14px 28px;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.yes{
+background:#ff4d6d;
+color:white;
+}
+
+.no{
+background:#f0f0f0;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+/* HEARTS */
+
+.heart{
+position:absolute;
+bottom:-20px;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+to{
+transform:translateY(-100vh);
+opacity:0;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Hello 💕</h1>
+
+
+<h2 style="margin-top:15px;">Will you be my Valentine? 💖</h2>
+
+<div class="buttons">
+<button class="yes" id="yesBtn">Yes 🥰</button>
+<button class="no" id="noBtn">No 😢</button>
+</div>
+
+<p id="message"></p>
+
+</div>
+
+<script>
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const message = document.getElementById("message");
+
+/* CHECK IF SHE ALREADY SAID YES */
+
+window.onload = () => {
+
+if(localStorage.getItem("valentineAnswer") === "yes"){
+showLoveMessage();
+noBtn.style.display = "none";
+yesBtn.innerText = "Already Mine 💕";
+}
+
+};
+
+/* YES BUTTON */
+
+yesBtn.onclick = () => {
+
+localStorage.setItem("valentineAnswer","yes");
+
+showLoveMessage();
+noBtn.style.display = "none";
+yesBtn.innerText = "Already Mine 💕";
+
+};
+
+/* LOVE MESSAGE */
+
+function showLoveMessage(){
+
+message.innerHTML =
+"Thank you for choosing me, always ❤️<br><br>" +
+"I’m so lucky to have you in my life. I love you 💕";
+
+launchHearts(30);
+
+}
+
+/* PLAYFUL NO BUTTON */
+
+let guiltTexts = [
+"Are you sure? 🥺",
+"Really sure?? 😭",
+"I’ll still love you though 💔",
+"Please reconsider 😔",
+"You're breaking my heart 😭"
+];
+
+let index = 0;
+
+noBtn.onclick = () => {
+
+if(index < guiltTexts.length){
+noBtn.innerText = guiltTexts[index];
+index++;
+}
+
+moveButton();
+
+};
+
+function moveButton(){
+
+const btnWidth = noBtn.offsetWidth;
+const btnHeight = noBtn.offsetHeight;
+
+const maxX = window.innerWidth - btnWidth - 20;
+const maxY = window.innerHeight - btnHeight - 20;
+
+const x = Math.random() * maxX;
+const y = Math.random() * maxY;
+
+noBtn.style.position = "fixed";
+noBtn.style.left = x + "px";
+noBtn.style.top = y + "px";
+
+}
+
+/* HEART ANIMATION */
+
+function launchHearts(amount){
+
+for(let i=0;i<amount;i++){
+
+const heart = document.createElement("div");
+
+heart.className="heart";
+heart.innerHTML="💖";
+
+heart.style.left = Math.random()*100 + "vw";
+heart.style.fontSize = (Math.random()*20+15)+"px";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},6000);
+
+}
+
+}
+
+/* BACKGROUND HEARTS */
+
+setInterval(()=>launchHearts(1),1000);
+
+</script>
+
+</body>
+</html>
